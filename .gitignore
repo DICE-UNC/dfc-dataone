@@ -1,38 +1,29 @@
-/target
-*.pydevproject
+**/.classpath
+**/.DS_Store
+**/nb-configuration.xml
+**/.springBeans
+**/testing.properties
+*.iml
 .project
+.idea
 .metadata
-.springBeans
-bin/**
-tmp/**
-tmp/**/*
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.classpath
-.settings/
-.loadpath
 .DS_Store
-# External tool builders
-.externalToolBuilders/
-
-# Locally stored "Eclipse launch configurations"
-*.launch
-
-# CDT-specific
-.cproject
-
-# PDT-specific
-.buildpath
-
-#Version file
-src/**/RestVersion.java
-
-#removed files
-test-certs/public.pem
-test-certs/private.pem
-test-certs/cakey.pem
-test-certs/cacert.pem
-src/main/resources/admpriv.bin
+Servers
+.settings
+.classpath
+target
+mvn-repo
+bin
+*.war
+*.log
+*/nbactions.xml  
+*.eml
+nbactions.xml
+testing.properties
+*/test-output
+JargonVersion.java
+**/${test.option.mount.basedir}
+*.*~
+**/.project
+**/.settings
+**/target

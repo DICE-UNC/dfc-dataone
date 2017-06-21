@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<context:property-placeholder
+		location="file:///etc/irods-ext/default-event-indexer.properties" />
+
+<!--  
+	<bean id="systemPropertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="locations" value="classpath:event.properties" />
+	</bean> -->
+
+	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
+
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- <property name="configurationClass" value="org.hibernate.cfg.AnnotationConfiguration" 
+			/> -->
+		<property name="configLocation" value="classpath:event-dao-hibernate-spring.cfg.xml" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.auto_create_schema">false</prop>
+				<prop key="hibernate.generate_statistics">false</prop>
+				<prop key="hibernate.c3p0.minPoolSize">4</prop>
+				<prop key="hibernate.c3p0.maxPoolSize">8</prop>
+				<prop key="hibernate.c3p0.timeout">900</prop>
+				<prop key="hibernate.c3p0.max_statement">50</prop>
+				<prop key="hibernate.c3p0.testConnectionOnCheckout">false</prop>
+				<prop key="hibernate.use_sql_comments">false</prop>
+
+			</props>
+		</property>
+	</bean>
+
+	<!-- Transaction manager for a single Hibernate SessionFactory (alternative 
+		to JTA) -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- ========================= BUSINESS OBJECT DEFINITIONS ========================= -->
+
+	<bean id="accesLogDAO"
+		class="org.irods.jargon.dataone.def.event.persist.dao.AccessLogDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+</beans>

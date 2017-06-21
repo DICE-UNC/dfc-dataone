@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+  
+    "http://www.jboss.org/dtd/hibernate/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<mapping class="org.irods.jargon.dataone.def.event.persist.dao.domain.AccessLog" />
+	</session-factory>
+</hibernate-configuration>
